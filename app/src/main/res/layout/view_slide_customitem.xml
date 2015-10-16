@@ -8,8 +8,7 @@
         android:id="@+id/item_pic_iv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@mipmap/ic_launcher"
-        android:layout_marginBottom="20dp"
+        android:background="@mipmap/def_item_bg"
         android:scaleType="fitXY" />
 
     <TextView
@@ -20,6 +19,7 @@
         android:layout_marginBottom="20dp"
         android:background="#44999999"
         android:paddingLeft="5dp"
+        android:singleLine="true"
         android:text=""
         android:textColor="#ffffff" />
 
@@ -30,10 +30,14 @@
         android:src="@mipmap/dp1080p_01" />
 
     <TextView
-        android:id="@+id/item_title_tv"
+        android:id="@+id/item_watch_tv"
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:layout_gravity="bottom"
+        android:background="#44999999"
+        android:paddingLeft="5dp"
         android:singleLine="true"
-        android:text="" />
+        android:text=""
+        android:textColor="#ffffff" />
+
 </FrameLayout>

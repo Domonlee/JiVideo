@@ -42,8 +42,10 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
     private MainVideoManager mManager;
 
-    List<HotVideoData.HotsEntity> mPicSldeDatas;
-    List<HotVideoData.HotsEntity> mPicOtherDatas;
+    private List<HotVideoData.HotsEntity> mPicSldeDatas;
+    private List<HotVideoData.HotsEntity> mPicOtherDatas;
+
+    private ArrayList<CustomItemFrameLayout> customItemFrameLayouts;
 
     @Bind(R.id.slide_main_psv)
     PicSlideView mPicSlideView;
@@ -97,20 +99,11 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             return;
         }
 
-        Glide.with(mContext).load(mPicOtherDatas.get(0).getSmall_icon()).into(mTopItem1Item.getItemImageView());
-        mTopItem1Item.setItemInfo(mPicOtherDatas.get(0).getTitle());
-
-        Glide.with(mContext).load(mPicOtherDatas.get(1).getSmall_icon()).into(mTopItem2Item.getItemImageView());
-        mTopItem2Item.setItemInfo(mPicOtherDatas.get(1).getTitle());
-
-        Glide.with(mContext).load(mPicOtherDatas.get(2).getSmall_icon()).into(mBottomItem1Item.getItemImageView());
-        mBottomItem1Item.setItemInfo(mPicOtherDatas.get(2).getTitle());
-
-        Glide.with(mContext).load(mPicOtherDatas.get(3).getSmall_icon()).into(mBottomItem2Item.getItemImageView());
-        mBottomItem2Item.setItemInfo(mPicOtherDatas.get(3).getTitle());
-
-        Glide.with(mContext).load(mPicOtherDatas.get(4).getSmall_icon()).into(mBottomItem3Item.getItemImageView());
-        mBottomItem3Item.setItemInfo(mPicOtherDatas.get(4).getTitle());
+        int picOtherSize = mPicOtherDatas.size();
+        for (int i = 0; i < picOtherSize; ++i) {
+            Glide.with(mContext).load(mPicOtherDatas.get(i).getSmall_icon()).into(customItemFrameLayouts.get(i).getItemImageView());
+            customItemFrameLayouts.get(i).setItemInfo(mPicOtherDatas.get(i).getTitle());
+        }
 
     }
 
@@ -128,11 +121,11 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     }
 
     private void findViewById(View view) {
+        mTopItem1Item = (CustomItemFrameLayout) view.findViewById(R.id.top_item1_fl);
+        mTopItem2Item = (CustomItemFrameLayout) view.findViewById(R.id.top_item2_fl);
         mBottomItem1Item = (CustomItemFrameLayout) view.findViewById(R.id.bottom_item1_fl);
         mBottomItem2Item = (CustomItemFrameLayout) view.findViewById(R.id.bottom_item2_fl);
         mBottomItem3Item = (CustomItemFrameLayout) view.findViewById(R.id.bottom_item3_fl);
-        mTopItem1Item = (CustomItemFrameLayout) view.findViewById(R.id.top_item1_fl);
-        mTopItem2Item = (CustomItemFrameLayout) view.findViewById(R.id.top_item2_fl);
         mPicSlideView = (PicSlideView) view.findViewById(R.id.slide_main_psv);
     }
 
@@ -140,23 +133,18 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         //TODO bitmap
         Resources resources = this.getResources();
 
-        mBottomItem1Item.setItemPic(R.mipmap.ic_launcher);
-        mBottomItem1Item.setItemInfo("Bottom_Info1");
-        mBottomItem2Item.setItemPic(R.mipmap.ic_launcher);
-        mBottomItem2Item.setItemInfo("Bottom_Info2");
-        mBottomItem3Item.setItemPic(R.mipmap.ic_launcher);
-        mBottomItem3Item.setItemInfo("Bottom_Info3");
+        customItemFrameLayouts = new ArrayList<>();
+        customItemFrameLayouts.add(mTopItem1Item);
+        customItemFrameLayouts.add(mTopItem2Item);
+        customItemFrameLayouts.add(mBottomItem1Item);
+        customItemFrameLayouts.add(mBottomItem2Item);
+        customItemFrameLayouts.add(mBottomItem3Item);
 
-        mTopItem1Item.setItemPic(R.mipmap.ic_launcher);
-        mTopItem1Item.setItemInfo("Top_Info1");
-        mTopItem2Item.setItemPic(R.mipmap.ic_launcher);
-        mTopItem2Item.setItemInfo("Top_info2");
-
-        mTopItem1Item.setOnClickListener(this);
-        mTopItem2Item.setOnClickListener(this);
-        mBottomItem1Item.setOnClickListener(this);
-        mBottomItem2Item.setOnClickListener(this);
-        mBottomItem3Item.setOnClickListener(this);
+        customItemFrameLayouts.get(0).setOnClickListener(this);
+        customItemFrameLayouts.get(1).setOnClickListener(this);
+        customItemFrameLayouts.get(2).setOnClickListener(this);
+        customItemFrameLayouts.get(3).setOnClickListener(this);
+        customItemFrameLayouts.get(4).setOnClickListener(this);
     }
 
     @Override
@@ -192,24 +180,28 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        switch (id) {
-            case R.id.top_item1_fl:
-                onClickDetailVideo(mPicOtherDatas.get(0));
-                break;
-            case R.id.top_item2_fl:
-                onClickDetailVideo(mPicOtherDatas.get(1));
-                break;
-            case R.id.bottom_item1_fl:
-                onClickDetailVideo(mPicOtherDatas.get(2));
-                break;
-            case R.id.bottom_item2_fl:
-                onClickDetailVideo(mPicOtherDatas.get(3));
-                break;
-            case R.id.bottom_item3_fl:
-                onClickDetailVideo(mPicOtherDatas.get(4));
-                break;
-            default:
-                break;
+        try {
+            switch (id) {
+                case R.id.top_item1_fl:
+                    onClickDetailVideo(mPicOtherDatas.get(0));
+                    break;
+                case R.id.top_item2_fl:
+                    onClickDetailVideo(mPicOtherDatas.get(1));
+                    break;
+                case R.id.bottom_item1_fl:
+                    onClickDetailVideo(mPicOtherDatas.get(2));
+                    break;
+                case R.id.bottom_item2_fl:
+                    onClickDetailVideo(mPicOtherDatas.get(3));
+                    break;
+                case R.id.bottom_item3_fl:
+                    onClickDetailVideo(mPicOtherDatas.get(4));
+                    break;
+                default:
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -217,5 +209,13 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         Intent intent = new Intent(mContext, VideoDetailActivity.class);
         intent.putExtra("data", data);
         startActivity(intent);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mManager != null) {
+            mManager.cancel();
+        }
     }
 }
